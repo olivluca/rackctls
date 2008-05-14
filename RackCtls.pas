@@ -30,7 +30,7 @@ interface
 {$I SRDefine.inc}
 
 uses
-  {$IFDEF SR_LAZARUS} LCLType, LCLIntf, LResources, LMessages,
+  {$IFDEF SR_LAZARUS} LCLType, LCLIntf, LResources, LMessages, Buttons,
   {$ELSE}
   {$IFDEF SR_Win32} Windows, {$ELSE} WinTypes, WinProcs, Menus, Messages, {$ENDIF}
   {$ENDIF}
@@ -89,9 +89,11 @@ type
     FDepth:            integer;
     FDown:             boolean;
     FFont:             TFont;
-    FGlyph:            TBitmap;
+    FGlyph:            {$IFDEF SR_LAZARUS} TButtonGlyph {$ELSE} TBitmap {$ENDIF};
     FLEDContrast:      TContrast;
+    {$IFNDEF SR_LAZARUS}
     FNumGlyphs:        TNumGlyphs;
+    {$ENDIF}
     FShowLED:          boolean;
     FStateOn:          boolean;
     FSwitching:        boolean;
@@ -119,6 +121,10 @@ type
     procedure SetColorLED(newColor: TColor);
     procedure SetDepth(newValue: integer);
     procedure SetFont(newFont: TFont);
+    {$IFDEF SR_LAZARUS}
+    function GetGlyph: TBitmap;
+    function GetNumGlyphs: TNumGlyphs;
+    {$ENDIF}
     procedure SetGlyph(newGlyph: TBitmap);
     procedure SetLEDContrast(newContrast: TContrast);
     procedure SetNumGlyphs(newNumGlyphs: TNumGlyphs);
@@ -159,9 +165,9 @@ type
     property Depth: integer read FDepth write SetDepth;
     property Enabled;
     property Font: TFont read FFont write SetFont;
-    property Glyph: TBitmap read FGlyph write SetGlyph;
+    property Glyph: TBitmap read {$IFDEF SR_LAZARUS} GetGlyph {$ELSE} FGlyph {$ENDIF} write SetGlyph;
     property LEDContrast: TContrast read FLEDContrast write SetLEDContrast;
-    property NumGlyphs: TNumGlyphs read FNumGlyphs write SetNumGlyphs default 1;
+    property NumGlyphs: TNumGlyphs read {$IFDEF SR_LAZARUS} GetNumGlyphs {$ELSE} FNumGlyphs {$ENDIF} write SetNumGlyphs default 1;
     property ParentFont;
     property ParentShowHint;
     {$IFDEF SR_Delphi3_Up}
@@ -739,8 +745,12 @@ begin
   FDepth:=DefaultDepth;
   FDown:=false;
   FFont:=TFont.Create;
+  {$IFDEF SR_LAZARUS}
+  FGlyph:=TButtonGlyph.Create;
+  {$ELSE}
   FGlyph:=TBitmap.Create;
   FNumGlyphs:=1;
+  {$ENDIF}
   FShowLED:=true;
   FStateOn:=false;
   FSwitching:=true;
@@ -819,6 +829,18 @@ begin
   Invalidate;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLEDButton.SetGlyph(newGlyph: TBitmap);
+begin
+  fGlyph.Glyph:=newGlyph;
+  Invalidate;
+end;
+
+function TLEDButton.GetGlyph:TBitmap;
+begin
+  result:=fGlyph.Glyph;
+end;
+{$ELSE}
 procedure TLEDButton.SetGlyph(newGlyph: TBitmap);
 begin
   if(Assigned(FGlyph)) then begin
@@ -836,6 +858,7 @@ begin
     Invalidate;
   end;
 end;
+{$ENDIF}
 
 procedure TLEDButton.SetLEDContrast(newContrast: TContrast);
 var Dummy : TColor;
@@ -847,6 +870,25 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+function TLEDButton.GetNumGlyphs:TNumGlyphs;
+begin
+  result:=FGlyph.NumGlyphs;
+end;
+
+procedure TLEDButton.SetNumGlyphs(newNumGlyphs: TNumGlyphs);
+begin
+  if newNumGlyphs < 0 then newNumGlyphs := 1;
+  if newNumGlyphs > High(TNumGlyphs) then newNumGlyphs := High(TNumGlyphs);
+
+  if newNumGlyphs <> fGlyph.NumGlyphs then
+  Begin
+    fGlyph.NumGlyphs := newNumGlyphs;
+    Invalidate;
+  end;
+end;
+
+{$ELSE}
 procedure TLEDButton.SetNumGlyphs(newNumGlyphs: TNumGlyphs);
 begin
   if FNumGlyphs<>newNumGlyphs then begin
@@ -854,6 +896,7 @@ begin
     Invalidate;
   end;
 end;
+{$ENDIF}
 
 procedure TLEDButton.SetShowLED(newValue: boolean);
 begin
@@ -1110,35 +1153,29 @@ begin
   end;
 end;
 
-{$IFDEF SR_LAZARUS}
-{
-TCanvas.BrushCopy isn't implemented in Lazarus.
-See http://bugs.freepascal.org/view.php?id=8047
-}
-
-procedure BrushCopy(DestCanvas: TCanvas; const Dest: TRect; Bitmap: TBitmap;
-                    const Source: TRect; Color: TColor);
-begin
-  StretchBlt(DestCanvas.Handle, Dest.Left, Dest.Top,
-             Dest.Right - Dest.Left, Dest.Bottom - Dest.Top,
-             Bitmap.Canvas.Handle, Source.Left, Source.Top,
-             Source.Right - Source.Left, Source.Bottom - Source.Top, SrcCopy);
-end;
-{$ENDIF}
-
 procedure TLEDButton.DrawGlyph(Dest:TRect);
 var
+  {$IFDEF SR_LAZARUS}
+  ButtonState: TButtonState;
+  Offset: TPoint;
+  {$ELSE}
   Source    : TRect;
+  {$ENDIF}
   outWidth  : integer;
   outHeight : integer;
 begin
   with Canvas do begin
     { Größe des Destination-Rechtecks }
-    outWidth:=  FGlyph.Width div FNumGlyphs;
-    outHeight:= FGlyph.Height;
+    outWidth:=  Glyph.Width div NumGlyphs;
+    outHeight:= Glyph.Height;
     {$IFDEF SR_LAZARUS}
-    if (OutWidth=1) and (OutHeight=1) then exit;
-    {$ENDIF}
+    ButtonState:=bsDisabled;
+    Offset.X:=(Dest.Right-Dest.Left-outWidth) div 2;
+    Offset.Y:=(Dest.Bottom-Dest.Top-outHeight) div 2;
+    if Enabled then
+      if FStateOn and (NumGlyphs>2) then ButtonState:=bsDown else ButtonState:=bsUp;
+    FGlyph.Draw(Canvas,Dest,Offset, ButtonState, true, 0);
+    {$ELSE}
     with Source do begin
       Top:=0;
       Bottom:=FGlyph.Height;
@@ -1158,9 +1195,6 @@ begin
     Dest.Top:=   ((Dest.Bottom + Dest.Top - outHeight) shr 1);
     Dest.Bottom:=Dest.Top+outHeight;
     Pen.Color := Color;
-    {$IFDEF SR_LAZARUS}
-    BrushCopy(Canvas, Dest,FGlyph,Source,FGlyph.Canvas.Pixels[0,FGlyph.Height-1]);
-    {$ELSE}
     BrushCopy(Dest,FGlyph,Source,FGlyph.Canvas.Pixels[0,FGlyph.Height-1]);
     {$ENDIF}
   end;
@@ -1226,7 +1260,7 @@ begin
     if (Caption<>'') and (FTextPosition=tpOnButton) then
       DrawCaption(ARect);
     Brush.Color:=Self.Color;
-    if Assigned(FGlyph) and (FNumGlyphs > 0) and (FTextPosition<>tpOnButton) then
+    if Assigned(FGlyph) and (NumGlyphs > 0) and (FTextPosition<>tpOnButton) then
       DrawGlyph(ARect);
   end;
 end;
