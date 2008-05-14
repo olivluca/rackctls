@@ -1,0 +1,798 @@
+object MainForm: TMainForm
+  Left = 374
+  Height = 298
+  Top = 194
+  Width = 375
+  HorzScrollBar.Page = 374
+  VertScrollBar.Page = 297
+  ActiveControl = PageControl1
+  Caption = 'RackControls - Demo'
+  ClientHeight = 298
+  ClientWidth = 375
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Icon.Data = {
+    36100000424D3610000000000000360000002800000020000000200000000100
+    2000000000000010000064000000640000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+    00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+    00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+    00FF000000FF000000FF000000FF000000000000000000000000000000FF0000
+    0000800080FF800080FF800080FF800080FF800080FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF800080FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF800080FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF0000000000000000000000008000
+    80FF000000000000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0000FFFF800080FF00000000000000000000
+    00000000FFFF0000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    000000000000000000000000000000000000000000000000FFFF000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000FF0000000000000000000000000000000000000000000000000000
+    000000000000000000FF00000000000000000000000000000000000000000000
+    00FF000000FF000000FFC0C0C0FF000000000000000000000000000000000000
+    00FF000000FF000000FFC0C0C0FF000000000000000000000000000000000000
+    00FF800080FFC0C0C0FF00000000000000000000000000000000000000000000
+    0000000000FF800080FFC0C0C0FF000000000000000000000000000000FF8000
+    80FF800080FF800080FF800080FFC0C0C0FF0000000000000000000000FF8000
+    80FF800080FF800080FF800080FFC0C0C0FF0000000000000000000000000000
+    00FF800080FF800080FF000000FF000000FF0000000000000000000000000000
+    00FF800080FF800080FF800080FFC0C0C0FF00000000000000FF800080FF8000
+    80FF800080FF800080FF800080FF800080FFC0C0C0FF00000000000000008000
+    80FF800080FF800080FF800080FF800080FFC0C0C0FF00000000000000000000
+    00FF800080FF800080FF800080FF800080FFC0C0C0FF00000000000000000000
+    00FF800080FF800080FF800080FF0000FFFF000000FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF0000FFFF00000000000000000000
+    00FF000000FF000000FF800080FF800080FF0000FFFF00000000000000000000
+    00FF800080FF800080FF800080FF800080FF800080FFC0C0C0FF000000000000
+    00FF800080FF800080FF800080FF0000FFFF000000FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF0000FFFF0000000000000000000000FF8000
+    80FF800080FF800080FF800080FF800080FF0000FFFF00000000000000000000
+    00FF800080FF800080FF800080FF800080FF800080FF800080FF0000FFFF0000
+    00FF800080FF800080FF800080FF0000FFFF000000FF800080FF800080FF8000
+    80FF0000FFFF0000FFFF0000FFFF0000000000000000000000FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF0000FFFF00000000000000000000
+    00FF800080FF800080FF800080FF0000FFFFC0C0C0FF800080FF0000FFFF0000
+    00FF800080FF800080FF800080FF0000FFFF000000FF800080FF800080FF8000
+    80FF000000FF000000FFC0C0C0FF0000000000000000000000FF800080FF8000
+    80FF800080FF800080FF800080FF0000FFFF0000000000000000000000000000
+    00FF800080FF800080FF800080FFC0C0C0FF000000FF800080FF0000FFFF0000
+    00FF800080FF800080FF800080FF0000FFFFC0C0C0FF800080FF800080FF8000
+    80FF800080FF800080FF800080FFC0C0C0FF00000000000000FF800080FF8000
+    80FF800080FF0000FFFF0000FFFFC0C0C0FF0000000000000000000000000000
+    00FF800080FF800080FF800080FF800080FF800080FF800080FF0000FFFFC0C0
+    C0FF800080FF800080FF800080FF0000FFFF00000000C0C0C0FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF0000FFFFC0C0C0FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF0000FFFF00000000000000000000
+    0000C0C0C0FF800080FF800080FF800080FF800080FF0000FFFF000000000000
+    0000C0C0C0FF800080FF0000FFFF000000000000000000000000C0C0C0FF8000
+    80FF800080FF800080FF800080FF0000FFFF0000000000000000C0C0C0FF8000
+    80FF800080FF800080FF800080FF0000FFFF0000000000000000000000000000
+    0000000000000000FFFF0000FFFF0000FFFF0000FFFF00000000000000000000
+    0000000000000000FFFF0000000000000000000000000000000000000000C0C0
+    C0FF0000FFFF0000FFFF0000FFFF00000000000000000000000000000000C0C0
+    C0FF0000FFFF0000FFFF0000FFFF000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000FF0000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000FF0000000000000000000000008000
+    80FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+    00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+    00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
+    00FF000000FF000000FF000000FF00000000800080FF00000000000000000000
+    0000800080FF800080FF800080FF800080FF800080FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF800080FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF800080FF800080FF800080FF8000
+    80FF800080FF800080FF800080FF800080FF000000000000FFFF000000000000
+    0000000000000000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0000FFFF0000FFFF00000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000
+  }
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '0.9.25'
+  object Label7: TLabel
+    Left = 12
+    Height = 14
+    Top = 55
+    Width = 32
+    Caption = 'Label7'
+    ParentColor = False
+  end
+  object PageControl1: TPageControl
+    Height = 298
+    Width = 375
+    ActivePage = TabSheet2
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object TabSheet2: TTabSheet
+      Caption = 'TLedButtonPanel / TLEDButton'
+      ClientHeight = 272
+      ClientWidth = 367
+      object Bevel1: TBevel
+        Left = 1
+        Height = 141
+        Top = 48
+        Width = 353
+        Shape = bsFrame
+      end
+      object LEDButton1: TLEDButton
+        Left = 155
+        Height = 45
+        Top = 192
+        Width = 45
+        Beveled = True
+        BorderStyle = bsSingle
+        Caption = 'LEDButton1'
+        Color = clBtnFace
+        ColorLED = clBlue
+        Depth = 3
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Glyph.Data = {
+          DE010000424DDE01000000000000760000002800000024000000120000000100
+          0400000000006801000000000000000000001000000000000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333444444
+          33333333333F8888883F33330000324334222222443333388F3833333388F333
+          000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338
+          F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222
+          223333333A224338F33833333338F38F00003222222333333A444338FFFF8F33
+          3338888300003AAAAAAA33333333333888888833333333330000333333333333
+          333333333333333333FFFFFF000033333333333344444433FFFF333333888888
+          00003A444333333A22222438888F333338F3333800003A2243333333A2222438
+          F38F333333833338000033A224333334422224338338FFFFF8833338000033A2
+          22444442222224338F3388888333FF380000333A2222222222AA243338FF3333
+          33FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA
+          3333333333338888883333330000333333333333333333333333333333333333
+          0000
+        }
+        LEDContrast = 6
+        NumGlyphs = 2
+        ShowLED = True
+      end
+      object LEDButton2: TLEDButton
+        Left = 121
+        Height = 45
+        Width = 113
+        Beveled = True
+        BorderStyle = bsSingle
+        ButtonDirection = bdTopUp
+        Caption = 'LEDButton1'
+        Color = clBtnFace
+        ColorLED = clBlue
+        Depth = 3
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000120B0000120B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333FFFFFFFFFFFFF3344444444444443337777777777777F334CCCCCCCCCC
+          C43337777777777777F33444881B188444333777F3737337773333308881FF70
+          33333337F3373337F3333330888BF770333333373F33F337333333330881F703
+          3333333373F73F7333333333308B703333333333373F77333333333333080333
+          3333333333777FF333333333301F103333333333377777FF3333333301B1F103
+          333333337737777FF3333330881BFB7033333337F3737F77F333333088881F70
+          333333F7F3337777FFF334448888888444333777FFFFFFF777F334CCCCCCCCCC
+          C43337777777777777F334444444444444333777777777777733
+        }
+        LEDContrast = 6
+        NumGlyphs = 2
+        ShowLED = True
+      end
+      object TestButton: TLEDButton
+        Left = 12
+        Height = 65
+        Top = 88
+        Width = 89
+        Beveled = True
+        BorderStyle = bsSingle
+        Caption = 'TestButton'
+        Color = clRed
+        ColorLED = clBlue
+        Depth = 3
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          0400000000000001000000000000000000001000000000000000000000000000
+          80000080000000808000800000008000800080800000C0C0C000808080000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333888083
+          333333333FFFF8F333333333800000088333333FF888888FF333333007F770A0
+          883333F883333888FF33330FFF7F70AA08833F83333338F383F330DEFFF7F0AA
+          A0833833333338F338FF30DDEFFFF0AAAA08F833333FF8F3388F0BBFDE0000AA
+          AAA08333338888F333880AABB07770AAAA08833338F338F3338F0EEAA07070AA
+          A008833338F338F3388F0AABB07770AA0A088333383FF8F3838F0BBFDE0000A0
+          BB038F33338888F8338330DDEFFFF00DD03338333333388338F330DEF7F7F0FE
+          D03338F3333338333833330FFF7F7FFF0333338FF333333F833333300FF7F700
+          333333388FFFFF88333333333000003333333333388888333333
+        }
+        LEDContrast = 6
+        NumGlyphs = 2
+        ShowLED = True
+        TextPosition = tpBelow
+        OnClick = TestButtonClick
+      end
+      object Label8: TLabel
+        Left = 196
+        Height = 14
+        Top = 52
+        Width = 79
+        Caption = 'ButtonDirection:'
+        ParentColor = False
+      end
+      object Label9: TLabel
+        Left = 196
+        Height = 14
+        Top = 92
+        Width = 64
+        Caption = 'TextPosition:'
+        ParentColor = False
+      end
+      object LabelClick: TLabel
+        Left = 40
+        Height = 14
+        Top = 164
+        Width = 34
+        Caption = 'Click!'
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentColor = False
+        Visible = False
+      end
+      object Label14: TLabel
+        Left = 108
+        Height = 14
+        Top = 52
+        Width = 26
+        Caption = 'Color'
+        ParentColor = False
+      end
+      object ButtonPanel2: TLedButtonPanel
+        Left = 1
+        Height = 45
+        Top = 192
+        Width = 154
+        Beveled = True
+        BorderStyle = bsSingle
+        Caption = 'ButtonPanel'
+        Color = clBtnFace
+        Depth = 3
+        ShowLED = True
+        TabOrder = 0
+      end
+      object ButtonPanel3: TLedButtonPanel
+        Left = 1
+        Height = 45
+        Width = 120
+        Beveled = True
+        BorderStyle = bsSingle
+        Color = clBtnFace
+        Depth = 3
+        PanelDirection = bdTopUp
+        ShowLED = True
+        TabOrder = 1
+      end
+      object ButtonPanel4: TLedButtonPanel
+        Left = 234
+        Height = 45
+        Width = 120
+        Beveled = True
+        BorderStyle = bsSingle
+        Color = clBtnFace
+        Depth = 3
+        PanelDirection = bdTopUp
+        ShowLED = True
+        TabOrder = 2
+      end
+      object ButtonPanel1: TLedButtonPanel
+        Left = 200
+        Height = 45
+        Top = 192
+        Width = 154
+        Beveled = True
+        BorderStyle = bsSingle
+        Caption = 'ButtonPanel'
+        Color = clBtnFace
+        Depth = 3
+        ShowLED = True
+        TabOrder = 3
+      end
+      object ComboBoxBD: TComboBox
+        Left = 196
+        Height = 21
+        Top = 68
+        Width = 145
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
+        Items.Strings = (
+          'bdBottomUp'
+          'bdLeftUp'
+          'bdNone'
+          'bdRightUp'
+          'bdTopUp'
+        )
+        OnChange = ComboBoxBDChange
+        Style = csDropDownList
+        TabOrder = 4
+      end
+      object CBSwitching: TCheckBox
+        Left = 196
+        Height = 19
+        Top = 168
+        Width = 72
+        Caption = 'Switching'
+        Checked = True
+        OnClick = CBSwitchingClick
+        State = cbChecked
+        TabOrder = 5
+      end
+      object ComboBoxTP: TComboBox
+        Left = 196
+        Height = 21
+        Top = 108
+        Width = 145
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
+        Items.Strings = (
+          'tpAbove'
+          'tpBelow'
+          'tpNone'
+          'tpOnButton'
+        )
+        OnChange = ComboBoxTPChange
+        Style = csDropDownList
+        TabOrder = 6
+      end
+      object CBBeveled: TCheckBox
+        Left = 196
+        Height = 19
+        Top = 150
+        Width = 65
+        Caption = 'Beveled'
+        Checked = True
+        OnClick = CBBeveledClick
+        State = cbChecked
+        TabOrder = 8
+      end
+      object CBShowLED: TCheckBox
+        Left = 196
+        Height = 19
+        Top = 132
+        Width = 74
+        Caption = 'ShowLED'
+        Checked = True
+        OnClick = CBShowLEDClick
+        State = cbChecked
+        TabOrder = 7
+      end
+      object ColorListBox1: TColorListBox
+        Left = 108
+        Height = 110
+        Top = 68
+        Width = 84
+        Items.Strings = (
+          'clBlack'
+          'clMaroon'
+          'clGreen'
+          'clOlive'
+          'clNavy'
+          'clPurple'
+          'clTeal'
+          'clGray'
+          'clSilver'
+          'clRed'
+          'clLime'
+          'clYellow'
+          'clBlue'
+          'clFuchsia'
+          'clAqua'
+          'clSilver'
+          'clGray'
+          'clWhite'
+          'clCream'
+          'clNone'
+          'clDefault'
+        )
+        ParentColor = False
+        TabOrder = 9
+        OnClick = ColorListBox1Click
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'TScrewPanel / TLEDDisplay'
+      ClientHeight = 272
+      ClientWidth = 367
+      object ScrewPanel1: TScrewPanel
+        Height = 272
+        Width = 367
+        Align = alClient
+        BevelInner = bvRaised
+        BevelOuter = bvLowered
+        Color = clBtnFace
+        Margin = 2
+        ScrewSize = 2
+        ShowScrews = True
+        TabOrder = 0
+        object LEDDisplay2: TLEDDisplay
+          Left = 181
+          Top = 16
+          BevelStyle = bvLowered
+          BorderStyle = bsSingle
+          ColorBackGround = 3355443
+          ColorLED = clYellow
+          FractionDigits = 2
+          LEDContrast = 6
+        end
+        object Label1: TLabel
+          Left = 8
+          Height = 14
+          Top = 60
+          Width = 31
+          Caption = 'Value:'
+          ParentColor = False
+        end
+        object Label2: TLabel
+          Left = 8
+          Height = 14
+          Top = 104
+          Width = 52
+          Caption = 'NumDigits:'
+          ParentColor = False
+        end
+        object Label3: TLabel
+          Left = 105
+          Height = 14
+          Top = 104
+          Width = 70
+          Caption = 'FractionDigits:'
+          ParentColor = False
+        end
+        object Label4: TLabel
+          Left = 8
+          Height = 14
+          Top = 188
+          Width = 71
+          Caption = 'SegmentStyle:'
+          ParentColor = False
+        end
+        object Label5: TLabel
+          Left = 184
+          Height = 14
+          Top = 188
+          Width = 31
+          Caption = 'Bevel:'
+          ParentColor = False
+        end
+        object Label6: TLabel
+          Left = 8
+          Height = 14
+          Top = 148
+          Width = 71
+          Caption = 'DecSeparator:'
+          ParentColor = False
+        end
+        object LEDDisplay1: TLEDDisplay
+          Left = 8
+          Top = 16
+          Width = 162
+          BevelStyle = bvLowered
+          BorderStyle = bsSingle
+          ColorBackGround = clGray
+          DecSeparator = dsPoint
+          FractionDigits = 2
+          LEDContrast = 6
+        end
+        object Label13: TLabel
+          Left = 181
+          Height = 14
+          Top = 60
+          Width = 65
+          Caption = 'LEDContrast:'
+          ParentColor = False
+        end
+        object EditValue: TEdit
+          Left = 8
+          Height = 21
+          Top = 76
+          Width = 162
+          OnChange = EditValueChange
+          TabOrder = 0
+          Text = '0'
+        end
+        object SpinEditNumDigits: TSpinEdit
+          Left = 8
+          Height = 22
+          Top = 120
+          Width = 65
+          MaxValue = 0
+          OnChange = SpinEditNumDigitsChange
+          TabOrder = 1
+          Value = 6
+        end
+        object SpinEditFractionDigits: TSpinEdit
+          Left = 105
+          Height = 22
+          Top = 120
+          Width = 65
+          MaxValue = 0
+          OnChange = SpinEditFractionDigitsChange
+          TabOrder = 2
+          Value = 2
+        end
+        object CBLeadingZeros: TCheckBox
+          Left = 181
+          Height = 19
+          Top = 122
+          Width = 91
+          Caption = 'LeadingZeros'
+          Checked = True
+          OnClick = CBLeadingZerosClick
+          State = cbChecked
+          TabOrder = 3
+        end
+        object ComboBoxSS: TComboBox
+          Left = 8
+          Height = 21
+          Top = 204
+          Width = 162
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          Items.Strings = (
+            'ssBeveled'
+            'ssRectangular'
+          )
+          OnChange = ComboBoxSSChange
+          Style = csDropDownList
+          TabOrder = 4
+        end
+        object ComboBoxBevel: TComboBox
+          Left = 181
+          Height = 21
+          Top = 204
+          Width = 168
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          Items.Strings = (
+            'bvLowered'
+            'bvNone'
+            'bvRaised'
+          )
+          OnChange = ComboBoxBevelChange
+          Style = csDropDownList
+          TabOrder = 5
+        end
+        object ComboBoxDecSeparator: TComboBox
+          Left = 8
+          Height = 21
+          Top = 164
+          Width = 162
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemHeight = 13
+          Items.Strings = (
+            'dsApostrophe'
+            'dsComma'
+            'dsDoublePoint'
+            'dsHyphen'
+            'dsNone'
+            'dsPoint'
+            'dsSemicolon'
+          )
+          OnChange = ComboBoxDecSeparatorChange
+          Style = csDropDownList
+          TabOrder = 6
+        end
+        object CBDrawDigitShapes: TCheckBox
+          Left = 249
+          Height = 19
+          Top = 77
+          Width = 108
+          Caption = 'DrawDigitShapes'
+          Checked = True
+          OnClick = CBDrawDigitShapesClick
+          State = cbChecked
+          TabOrder = 7
+        end
+        object SpinEditLEDContrast: TSpinEdit
+          Left = 181
+          Height = 22
+          Top = 76
+          Width = 56
+          MaxValue = 9
+          OnChange = SpinEditLEDContrastChange
+          TabOrder = 8
+          Value = 6
+        end
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'TLEDMeter'
+      ClientHeight = 272
+      ClientWidth = 367
+      object LabelPosition: TLabel
+        Left = 248
+        Height = 14
+        Top = 26
+        Width = 9
+        Caption = '0'
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentColor = False
+      end
+      object Label11: TLabel
+        Left = 56
+        Height = 14
+        Top = 48
+        Width = 42
+        Caption = 'Position:'
+        ParentColor = False
+      end
+      object LEDMeter1: TLEDMeter
+        Left = 56
+        Height = 16
+        Top = 24
+        Width = 183
+        BevelStyle = bvLowered
+        Colors.Section1 = clLime
+        Colors.Section2 = clYellow
+        Colors.Section3 = clRed
+        LEDContrast = 6
+        Max = 100
+        NumDigits = 20
+        Section2Value = 75
+        Section3Value = 90
+        OnChange = LEDMeter1Change
+      end
+      object LEDMeter2: TLEDMeter
+        Left = 272
+        Height = 182
+        Top = 24
+        Width = 16
+        BevelStyle = bvLowered
+        Colors.Section1 = clLime
+        Colors.Section2 = clYellow
+        Colors.Section3 = clRed
+        Direction = mdUp
+        LEDContrast = 6
+        Max = 100
+        NumDigits = 20
+        Section2Value = 75
+        Section3Value = 90
+        OnChange = LEDMeter1Change
+      end
+      object Label10: TLabel
+        Left = 56
+        Height = 14
+        Top = 180
+        Width = 60
+        Caption = 'StartColor2:'
+        ParentColor = False
+      end
+      object Label12: TLabel
+        Left = 173
+        Height = 14
+        Top = 180
+        Width = 60
+        Caption = 'StartColor3:'
+        ParentColor = False
+      end
+      object TBPosition: TTrackBar
+        Left = 47
+        Height = 37
+        Top = 64
+        Width = 199
+        Frequency = 5
+        Max = 100
+        OnChange = TBPositionChange
+        ScalePos = trTop
+        TabOrder = 0
+      end
+      object RGDirection: TRadioGroup
+        Left = 56
+        Height = 61
+        Top = 108
+        Width = 183
+        AutoFill = True
+        Caption = 'Direction'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.TopBottomSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 61
+        ClientWidth = 183
+        ItemIndex = 0
+        Items.Strings = (
+          'mdRight / mdUp'
+          'mdLeft / mdDown'
+        )
+        OnClick = RGDirectionClick
+        TabOrder = 1
+      end
+      object SpinEditStartColor2: TSpinEdit
+        Left = 56
+        Height = 22
+        Top = 196
+        Width = 65
+        MinValue = 1
+        OnChange = SpinEditStartColor2Change
+        TabOrder = 2
+        Value = 60
+      end
+      object SpinEditStartColor3: TSpinEdit
+        Left = 173
+        Height = 22
+        Top = 196
+        Width = 65
+        MinValue = 1
+        OnChange = SpinEditStartColor3Change
+        TabOrder = 3
+        Value = 80
+      end
+    end
+  end
+end
