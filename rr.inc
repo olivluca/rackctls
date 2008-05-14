@@ -23,6 +23,18 @@
   VER160	Delphi 7.0
   VER170	Delphi 2005
 }
+{$IFDEF LCL}
+{$DEFINE RR_LAZARUS}
+{$ENDIF}
+
+
+{$IFDEF RR_LAZARUS}
+
+{$MODE DELPHI}{$H+}
+
+{$DEFINE VER100_up}
+
+{$ELSE}
 
 {$B-} { Complete Boolean Evaluation }
 {$R-} { Range-Checking }
@@ -83,6 +95,8 @@
       {$ENDIF}
     {$ENDIF}
   {$ENDIF}
+{$ENDIF}
+
 {$ENDIF}
 
 {$IFDEF VER93}  { Borland C++Builder 1.0 }

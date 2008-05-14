@@ -53,6 +53,17 @@
 
 {$DEFINE SRDefines}
 
+{$IFDEF LCL}
+  {$DEFINE SR_LAZARUS}
+  {$DEFINE SR_Delphi2}
+  {$DEFINE SR_Delphi3}
+  {$DEFINE SR_Delphi4}
+  {$DEFINE SR_Delphi5}
+  {$DEFINE SR_Delphi6}
+  {$DEFINE SR_Delphi7}
+  {$MODE DELPHI}{$H+}
+{$ENDIF}
+
 {$IFDEF WINDOWS}
   {$DEFINE SR_Win16}
   {$DEFINE SR_Windows}

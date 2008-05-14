@@ -88,6 +88,9 @@ uses
 {$IFNDEF VER100_up}
   Controls,
 {$ENDIF}
+{$IFDEF RR_LAZARUS}
+  IntfGraphics,
+{$ENDIF}
   Graphics;
 
 const
@@ -120,12 +123,19 @@ function RGB2HLS(const RGB: TColorVector): TColorVector;
 {$IFDEF VER100_up}
 function GetBitmapColors(Bmp: TBitmap;var Colors: array of TColor;StartIndex: Integer): Integer;
 function GetBmpBitsPerPixel(ABitmap: TBitmap): Integer;
+{$IFNDEF RR_LAZARUS}
+//TODO
 procedure MapBitmapColors(Bmp: TBitmap; OldColors, NewColors: array of TColor);
 function SetBitmapColors(Bmp: TBitmap;Colors: array of TColor;StartIndex: Integer): Integer;
 {$ENDIF}
+{$ENDIF}
 implementation
 
+{$IFDEF RR_LAZARUS}
+uses RtlConsts;
+{$ELSE}
 uses Consts;
+{$ENDIF}
 
 type
   PRGBTripleArray = ^TRGBTripleArray;
@@ -248,6 +258,7 @@ begin
   end;
 end;
 {.$DEFINE PascalCode}
+{$IFNDEF RR_LAZARUS}
 procedure MapBitmapColors(Bmp: TBitmap; OldColors, NewColors: array of TColor);
 type
   TColorRec = packed record
@@ -483,6 +494,7 @@ begin
       end;
   end;
 end;
+{$ENDIF}
 {$ENDIF}
 
 function HLS2RGB(const HLS: TColorVector): TColorVector;

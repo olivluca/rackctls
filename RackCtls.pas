@@ -1,3 +1,4 @@
+{%encoding ISO-8859-1}
 unit RackCtls;
 
 { RackControls:
@@ -19,18 +20,26 @@ unit RackCtls;
   Änderungen, die bei LEDDisplay nachfolgende Nullen bei LeadingZeros=False doch zeichnet
   Ergänzt von Wolfgang Kleinrath
 
-  Eigenschaft FSingleLED ergänzt von U. Conrad }
+  Eigenschaft FSingleLED ergänzt von U. Conrad
+
+  Lazarus adaptation: Luca Olivetti <luca@ventoso.org>
+}
 
 interface
 
 {$I SRDefine.inc}
 
 uses
-  {$IFDEF SR_Win32} Windows, {$ELSE} WinTypes, WinProcs, Menus, {$ENDIF} Classes,
-  Graphics, Controls, ExtCtrls, SysUtils, Messages, Forms;
+  {$IFDEF SR_LAZARUS} LCLType, LCLIntf, LResources, LMessages,
+  {$ELSE}
+  {$IFDEF SR_Win32} Windows, {$ELSE} WinTypes, WinProcs, Menus, Messages, {$ENDIF}
+  {$ENDIF}
+  Classes, Graphics, Controls, ExtCtrls, SysUtils, Forms;
 
 type
+  {$IFNDEF SR_LAZARUS}
   TBorderStyle     = (bsNone, bsSingle);
+  {$ENDIF}
   TButtonDirection = (bdBottomUp, bdLeftUp, bdNone, bdRightUp, bdTopUp);
   TContrast        = 0..9;
   TDecSeparator    = (dsApostrophe, dsComma, dsDoublePoint, dsHyphen, dsNone, dsPoint, dsSemicolon);
@@ -88,8 +97,10 @@ type
     FSwitching:        boolean;
     FTextPosition:     TTextPosition;
 
+{$IFNDEF SR_LAZARUS}
     FMouseDown:        boolean;
     FOnClick:          TNotifyEvent;
+{$ENDIF}
 
   protected
     procedure Paint;  override;
@@ -98,10 +109,13 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
        override;
 
+{$IFDEF SR_LAZARUS}
+    procedure MouseLeave; override;
+{$ENDIF}
     procedure SetBeveled(newValue: boolean);
     procedure SetBorderStyle(newBorderStyle: TBorderStyle);
     procedure SetButtonDirection(NewDirection: TButtonDirection);
-    procedure SetColor(newColor: TColor);
+    procedure SetColor(newColor: TColor); {$IFDEF SR_LAZARUS}override;{$ENDIF}
     procedure SetColorLED(newColor: TColor);
     procedure SetDepth(newValue: integer);
     procedure SetFont(newFont: TFont);
@@ -117,12 +131,19 @@ type
     procedure DrawGlyph(Dest:TRect);
     procedure DrawLED(var Dest:TRect);
 
+{$IFDEF SR_LAZARUS}    
+    function  DialogChar(var Message: TLMKey):boolean;override;
+    procedure TextChanged;override;
+{$ENDIF}
+
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
+{$IFNDEF SR_LAZARUS}
     procedure CMTextChanged(var msg: TMessage);message CM_TEXTCHANGED;
     procedure CMDialogChar(var Message: TCMDialogChar);message CM_DIALOGCHAR;
+{$ENDIF}
 
   published
     {$IFDEF SR_Delphi5_Up}
@@ -149,8 +170,8 @@ type
     property ShowHint;
     property ShowLED: boolean read FShowLED write SetShowLED;
     property StateOn: boolean read FStateOn write SetStateOn;
-    property Switching: boolean read FSwitching write FSwitching;
-    property TextPosition: TTextPosition read FTextPosition write SetTextPosition;
+    property Switching: boolean read FSwitching write FSwitching default true;
+    property TextPosition: TTextPosition read FTextPosition write SetTextPosition default tpNone;
     property Visible;
 
     property OnClick;
@@ -160,7 +181,12 @@ type
     property OnMouseUp;
   end;
 
+{$IFDEF SR_LAZARUS}
+  //Lazarus already has a TButtonPanel in its standard components collection
+  TLedButtonPanel = class(TCustomPanel)
+{$ELSE}
   TButtonPanel = class(TCustomPanel)
+{$ENDIF}  
   private
     FBeveled:          boolean;
     FBorderStyle:      TBorderStyle;
@@ -175,8 +201,8 @@ type
     procedure Paint;  override;
 
     procedure SetBeveled(newValue: boolean);
-    procedure SetBorderStyle(newBorderStyle: TBorderStyle);
-    procedure SetColor(newColor: TColor);
+    procedure SetBorderStyle(newBorderStyle: TBorderStyle); {$IFDEF SR_LAZARUS}override;{$ENDIF}
+    procedure SetColor(newColor: TColor); {$IFDEF SR_LAZARUS}override;{$ENDIF}
     procedure SetDepth(newValue: integer);
     procedure SetPanelDirection(NewDirection: TButtonDirection);
     procedure SetShowLED(newValue: boolean);
@@ -208,7 +234,9 @@ type
     property FullRepaint;
     {$ENDIF}
     property Font;
+    {$IFNDEF SR_LAZARUS}
     property Locked;
+    {$ENDIF}
     property PanelDirection: TButtonDirection read FPanelDirection write SetPanelDirection;
     property ParentColor;
     property ParentCtl3D;
@@ -249,7 +277,7 @@ type
   protected
     procedure Paint;  override;
 
-    procedure SetColor(newColor: TColor);
+    procedure SetColor(newColor: TColor); {$IFDEF SR_LAZARUS}override;{$ENDIF}
     procedure SetMargin(newValue: integer);
     procedure SetScrewSize(newValue: TScrewSize);
     procedure SetShowScrews(newValue: boolean);
@@ -282,7 +310,9 @@ type
     property FullRepaint;
     {$ENDIF}
     property Font;
+    {$IFNDEF SR_LAZARUS}
     property Locked;
+    {$ENDIF}
     property Margin: integer read FMargin write SetMargin;
     property ParentColor;
     property ParentCtl3D;
@@ -372,17 +402,17 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle;
     property ColorBackGround: TColor read FColorBackGround write setColorBackGround default clOlive;
     property ColorLED: TColor read FColorLED write setColorLED default cllime;
-    property DecSeparator: TDecSeparator read FDecSeparator write setDecSeparator;
+    property DecSeparator: TDecSeparator read FDecSeparator write setDecSeparator default dsComma;
     property DigitHeight: integer read FDigitHeight write setDigitHeight default 30;
     property DigitWidth: integer read FDigitWidth write setDigitWidth default 20;
     property DigitLineWidth: integer read FLineWidth write setLineWidth default 3;
-    property DrawDigitShapes: boolean read FDrawDigitShapes write SetDrawDigitShapes;
+    property DrawDigitShapes: boolean read FDrawDigitShapes write SetDrawDigitShapes default true;
     property FractionDigits: integer read FFractionDigits write setFractionDigits default 0;
     property Height default 36;
     property LeadingZeros: boolean read FLeadingZeros write setLeadingZeros default true;
     property LEDContrast: TContrast read FLEDContrast write SetLEDContrast;
     property NumDigits: integer read FNumDigits write setNumDigits default 6;
-    property SegmentStyle: TSegmentStyle read FSegmentStyle write setSegmentStyle;
+    property SegmentStyle: TSegmentStyle read FSegmentStyle write setSegmentStyle default ssBeveled;
     property Value: extended read FValue write setValue;
     property Visible;
     property Width default 168;
@@ -453,7 +483,7 @@ type
     property BevelStyle: TPanelBevel read FBevelStyle write SetBevelStyle;
     property Colors : TLEDMeterColors read FColors write SetColors;
     property Cursor;
-    property Direction: TMeterDirection read FDirection write SetDirection;
+    property Direction: TMeterDirection read FDirection write SetDirection default mdRight;
     property DragCursor;
     property DragMode;
     property FallbackDelay: byte read FFallbackDelay write SetFallbackDelay;
@@ -483,12 +513,16 @@ procedure Register;
 
 implementation
 
+{$IFDEF SR_LAZARUS}
+uses rrColors;
+{$ELSE}
 {$IFDEF SR_Delphi2_Up}
 {$R *.D32}
 uses rrColors {$IFNDEF SR_Delphi5_Up}, SRUtils{$ENDIF};
 {$ELSE}
 {$R *.D16}
 uses SRUtils;
+{$ENDIF}
 {$ENDIF}
 
 
@@ -573,20 +607,36 @@ begin
   Result:=ChangeBrightness(Color1, -100 div 10*AContrast);
   {$ELSE}
   StartClr:=ColorToRGB(Color1);
+  {$IFDEF SR_LAZARUS}
+  YR := Red(StartClr);
+  YG := Green(StartClr);
+  YB := Blue(StartClr);
+  {$ELSE}
   YR := GetRValue(StartClr);
   YG := GetGValue(StartClr);
   YB := GetBValue(StartClr);
+  {$ENDIF}
   SR := YR;
   SG := YG;
   SB := YB;
   EndClr:=ColorToRGB(Color2);
+  {$IFDEF SR_LAZARUS}
+  DR := Red(EndClr)-SR;
+  DG := Green(EndClr)-SG;
+  DB := Blue(EndClr)-SB;
+  {$ELSE}
   DR := GetRValue(EndClr)-SR;
   DG := GetGValue(EndClr)-SG;
   DB := GetBValue(EndClr)-SB;
+  {$ENDIF}
   YR := SR + round(DR / 9 * AContrast);
   YG := SG + round(DG / 9 * AContrast);
   YB := SB + round(DB / 9 * AContrast);
+  {$IFDEF SR_LAZARUS}
+  Result := RGBToColor( YR, YG, YB);
+  {$ELSE}
   Result := RGB( YR, YG, YB);
+  {$ENDIF}
   {$ENDIF}
 end; {GetIntermediateColor}
 
@@ -697,8 +747,9 @@ begin
   FTextPosition:=tpNone;
   Height:=DefaultHeight;
   Width:=DefaultWidth;
-
+  {$IFNDEF SR_LAZARUS}
   FMouseDown:=False;
+  {$ENDIF}
 end;
 
 destructor  TLEDButton.Destroy;
@@ -735,6 +786,9 @@ end;
 procedure TLEDButton.SetColor(newColor: TColor);
 begin
   if FColor<>newColor then begin
+    {$IFDEF SR_LAZARUS}
+    inherited SetColor(newColor);
+    {$ENDIF}
     FColor:=newColor;
     AssignBevelColors(FColor,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
     Invalidate;
@@ -1056,6 +1110,22 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+{
+TCanvas.BrushCopy isn't implemented in Lazarus.
+See http://bugs.freepascal.org/view.php?id=8047
+}
+
+procedure BrushCopy(DestCanvas: TCanvas; const Dest: TRect; Bitmap: TBitmap;
+                    const Source: TRect; Color: TColor);
+begin
+  StretchBlt(DestCanvas.Handle, Dest.Left, Dest.Top,
+             Dest.Right - Dest.Left, Dest.Bottom - Dest.Top,
+             Bitmap.Canvas.Handle, Source.Left, Source.Top,
+             Source.Right - Source.Left, Source.Bottom - Source.Top, SrcCopy);
+end;
+{$ENDIF}
+
 procedure TLEDButton.DrawGlyph(Dest:TRect);
 var
   Source    : TRect;
@@ -1066,6 +1136,9 @@ begin
     { Größe des Destination-Rechtecks }
     outWidth:=  FGlyph.Width div FNumGlyphs;
     outHeight:= FGlyph.Height;
+    {$IFDEF SR_LAZARUS}
+    if (OutWidth=1) and (OutHeight=1) then exit;
+    {$ENDIF}
     with Source do begin
       Top:=0;
       Bottom:=FGlyph.Height;
@@ -1085,7 +1158,11 @@ begin
     Dest.Top:=   ((Dest.Bottom + Dest.Top - outHeight) shr 1);
     Dest.Bottom:=Dest.Top+outHeight;
     Pen.Color := Color;
+    {$IFDEF SR_LAZARUS}
+    BrushCopy(Canvas, Dest,FGlyph,Source,FGlyph.Canvas.Pixels[0,FGlyph.Height-1]);
+    {$ELSE}
     BrushCopy(Dest,FGlyph,Source,FGlyph.Canvas.Pixels[0,FGlyph.Height-1]);
+    {$ENDIF}
   end;
 end;
 
@@ -1154,6 +1231,22 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+function TLEDButton.DialogChar(var Message: TCMDialogChar):boolean;
+begin
+    if IsAccellerator(Message.CharCode, Caption) then begin
+      if Enabled then begin
+        Click;
+        if FSwitching then
+          FStateOn:=not FStateOn;
+        Invalidate;
+      end;
+      Result := true;
+    end
+    else
+      Result := inherited;
+end;
+{$ELSE}
 procedure TLEDButton.CMDialogChar(var Message: TCMDialogChar);
 begin
   with Message do begin
@@ -1170,37 +1263,66 @@ begin
       inherited;
   end;
 end;
+{$ENDIF}
 
 procedure TLEDButton.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  if Enabled then begin
+  if Enabled and (Button=mbLeft) then begin
     FDown:=true;
     Invalidate;
   end;
+  {$IFDEF SR_LAZARUS}
+  inherited MouseDown(Button, Shift, X, Y);
+  {$ELSE}
   FMouseDown:= True;
+  {$ENDIF}
 end;
 
 procedure TLEDButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  if Enabled then begin
+  if FDown and Enabled then begin
     FDown:=false;
     if FSwitching then
       FStateOn:=not FStateOn;
     Paint;
+    {$IFNDEF SR_LAZARUS}
     if Assigned(FOnClick) then
        FOnClick(Self);
+    {$ENDIF}   
   end;
-  FMouseDown:= False;
+  {$IFDEF SR_LAZARUS}
+  inherited MouseUp(Button, Shift, X, Y);
+  {$ENDIF}
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLEDButton.MouseLeave;
+begin
+  if FDown then
+  begin
+    FDown:=false;
+    Paint;
+  end;
+  inherited MouseLeave;
+end;
+{$ENDIF}
+
+{$IFDEF SR_LAZARUS}
+procedure TLEDButton.TextChanged;
+{$ELSE}
 procedure TLEDButton.CMTextChanged(var msg: TMessage);
+{$ENDIF}
 begin
   Invalidate;
 end;
 
 
-{ Komponente TButtonPanel }
+{ Komponente TLedButtonPanel }
+{$IFDEF SR_LAZARUS}
+constructor TLedButtonPanel.Create(AOwner: TComponent);
+{$ELSE}
 constructor TButtonPanel.Create(AOwner: TComponent);
+{$ENDIF}
 begin
   inherited Create(AOwner);
 
@@ -1216,12 +1338,20 @@ begin
   Width:=DefaultWidth;
 end;
 
+{$IFDEF SR_LAZARUS}
+destructor  TLedButtonPanel.Destroy;
+{$ELSE}
 destructor  TButtonPanel.Destroy;
+{$ENDIF}
 begin
   inherited Destroy;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.SetBeveled(NewValue: boolean);
+{$ELSE}
 procedure TButtonPanel.SetBeveled(NewValue: boolean);
+{$ENDIF}
 begin
   if FBeveled<>NewValue then begin
     FBeveled:=NewValue;
@@ -1229,7 +1359,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.SetBorderStyle(NewBorderStyle: TBorderStyle);
+{$ELSE}
 procedure TButtonPanel.SetBorderStyle(NewBorderStyle: TBorderStyle);
+{$ENDIF}
 begin
   if FBorderStyle<>NewBorderStyle then begin
     FBorderStyle:=NewBorderStyle;
@@ -1237,7 +1371,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.SetPanelDirection(NewDirection: TButtonDirection);
+{$ELSE}
 procedure TButtonPanel.SetPanelDirection(NewDirection: TButtonDirection);
+{$ENDIF}
 begin
   if FPanelDirection<>NewDirection then begin
     FPanelDirection:=NewDirection;
@@ -1245,16 +1383,27 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.SetColor(newColor: TColor);
+{$ELSE}
 procedure TButtonPanel.SetColor(newColor: TColor);
+{$ENDIF}
 begin
   if FColor<>newColor then begin
+    {$IFDEF SR_LAZARUS}
+    inherited SetColor(newColor);
+    {$ENDIF}
     FColor:=newColor;
     AssignBevelColors(FColor,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
     Invalidate;
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.SetDepth(newValue: integer);
+{$ELSE}
 procedure TButtonPanel.SetDepth(newValue: integer);
+{$ENDIF}
 begin
   if FDepth<>newValue then begin
     FDepth:=newValue;
@@ -1262,7 +1411,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.SetShowLED(newValue: boolean);
+{$ELSE}
 procedure TButtonPanel.SetShowLED(newValue: boolean);
+{$ENDIF}
 begin
   if FShowLED<>newValue then begin
     FShowLED:=newValue;
@@ -1270,7 +1423,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.DrawBorder(Dest:TRect);
+{$ELSE}
 procedure TButtonPanel.DrawBorder(Dest:TRect);
+{$ENDIF}
 var i : integer;
 begin
   Dest:=GetClientRect;
@@ -1436,7 +1593,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.DrawCaption(Dest:TRect);
+{$ELSE}
 procedure TButtonPanel.DrawCaption(Dest:TRect);
+{$ENDIF}
 var OutText : array [0..79] of char;
 begin
   with Canvas do begin
@@ -1446,7 +1607,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.DrawLED(var Dest:TRect);
+{$ELSE}
 procedure TButtonPanel.DrawLED(var Dest:TRect);
+{$ENDIF}
 begin
   with Canvas do begin
     Brush.Color:=clWindowFrame;
@@ -1471,7 +1636,11 @@ begin
   end;
 end;
 
+{$IFDEF SR_LAZARUS}
+procedure TLedButtonPanel.Paint;
+{$ELSE}
 procedure TButtonPanel.Paint;
+{$ENDIF}
 var ARect : TRect;
 begin
   Canvas.Font.Assign(Font);
@@ -1513,6 +1682,9 @@ end;
 procedure TScrewPanel.SetColor(newColor: TColor);
 begin
   if FColor<>newColor then begin
+    {$IFDEF SR_LAZARUS}
+    inherited SetColor(newColor);
+    {$ENDIF}
     FColor:=newColor;
     AssignBevelColors(FColor,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
     Invalidate;
@@ -2166,14 +2338,14 @@ begin
     else
       BevelWidth:=0;
     if (FDirection=mdRight) or (FDirection=mdLeft) then begin
-      DigitWidth:=(Width-(2*BevelWidth)) div FNumDigits;
-      DigitHeight:=Height-(2*BevelWidth);
+      DigitWidth:=(Self.Width-(2*BevelWidth)) div FNumDigits;
+      DigitHeight:=Self.Height-(2*BevelWidth);
       DigitLeft:=BevelWidth;
       DigitTop:=BevelWidth;
     end
     else begin
-      DigitWidth:=Width-(2*BevelWidth)-1;
-      DigitHeight:=(Height-(2*BevelWidth)) div FNumDigits;
+      DigitWidth:=Self.Width-(2*BevelWidth)-1;
+      DigitHeight:=(Self.Height-(2*BevelWidth)) div FNumDigits;
       DigitTop:=BevelWidth;
       DigitLeft:=BevelWidth;
     end;
@@ -2220,9 +2392,9 @@ begin
       if FDirection=mdRight then
         DigitLeft:=BevelWidth+(LEDNr*DigitWidth);
       if FDirection=mdLeft then
-        DigitLeft:=Width-BevelWidth-((LEDNr+1)*DigitWidth)-1;
+        DigitLeft:=Self.Width-BevelWidth-((LEDNr+1)*DigitWidth)-1;
       if FDirection=mdUp then
-        DigitTop:=Height-BevelWidth-((LEDNr+1)*DigitHeight);
+        DigitTop:=Self.Height-BevelWidth-((LEDNr+1)*DigitHeight);
       if FDirection=mdDown then
         DigitTop:=BevelWidth+(LEDNr*DigitHeight);
       Pen.Color:=FColors.Border;
@@ -2406,10 +2578,19 @@ end; {TimerExpired}
 procedure Register;
 begin
   RegisterComponents('Simon', [TLEDButton]);
+{$IFDEF SR_LAZARUS}
+  RegisterComponents('Simon', [TLedButtonPanel]);
+{$ELSE}
   RegisterComponents('Simon', [TButtonPanel]);
+{$ENDIF}
   RegisterComponents('Simon', [TScrewPanel]);
   RegisterComponents('Simon', [TLEDDisplay]);
   RegisterComponents('Simon', [TLEDMeter]);
 end;
+
+{$IFDEF SR_LAZARUS}
+initialization
+{$i rackctls.lrs}
+{$ENDIF}
 
 end.

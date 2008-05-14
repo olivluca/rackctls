@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Package Version="3">
+    <PathDelim Value="\"/>
+    <Name Value="RackCtlsPkg"/>
+    <Author Value="Simon Reinhardt - Lazarus adaptation: Luca Olivetti"/>
+    <CompilerOptions>
+      <Version Value="5"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <CodeGeneration>
+        <Generate Value="Faster"/>
+      </CodeGeneration>
+      <Other>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Collection of components with an &quot;Hi-fi system&quot; appearance: TLEDButton (button with a LED display), TLEDButtonPanel (its matching panel), TScrewPanel (a panel with screws), TLEDDisplay (7-segment LED display for numerical values) and TLEDMeter (LED bar graph, Vu-meter style).
+"/>
+    <License Value="Public Domain
+"/>
+    <Version Major="1" Minor="20" Release="1"/>
+    <Files Count="4">
+      <Item1>
+        <Filename Value="RackCtls.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="RackCtls"/>
+      </Item1>
+      <Item2>
+        <Filename Value="rrColors.pas"/>
+        <UnitName Value="rrColors"/>
+      </Item2>
+      <Item3>
+        <Filename Value="SRDefine.inc"/>
+        <Type Value="Include"/>
+      </Item3>
+      <Item4>
+        <Filename Value="rr.inc"/>
+        <Type Value="Include"/>
+      </Item4>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="3">
+      <Item1>
+        <PackageName Value="IDEIntf"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)\"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <DestinationDirectory Value="$(TestDir)\publishedpackage\"/>
+      <IgnoreBinaries Value="False"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
