@@ -83,13 +83,15 @@ interface
 
 uses
   SysUtils,
+{$IFNDEF RR_LAZARUS}
   Windows,
+{$ENDIF}
   Classes,
 {$IFNDEF VER100_up}
   Controls,
 {$ENDIF}
 {$IFDEF RR_LAZARUS}
-  IntfGraphics,
+  LCLType,
 {$ENDIF}
   Graphics;
 
@@ -121,10 +123,10 @@ function RGBtoHLS(RGBColor: TColorRef): THLSVector;
 function HLS2RGB(const HLS: TColorVector): TColorVector;
 function RGB2HLS(const RGB: TColorVector): TColorVector;
 {$IFDEF VER100_up}
-function GetBitmapColors(Bmp: TBitmap;var Colors: array of TColor;StartIndex: Integer): Integer;
-function GetBmpBitsPerPixel(ABitmap: TBitmap): Integer;
 {$IFNDEF RR_LAZARUS}
 //TODO
+function GetBitmapColors(Bmp: TBitmap;var Colors: array of TColor;StartIndex: Integer): Integer;
+function GetBmpBitsPerPixel(ABitmap: TBitmap): Integer;
 procedure MapBitmapColors(Bmp: TBitmap; OldColors, NewColors: array of TColor);
 function SetBitmapColors(Bmp: TBitmap;Colors: array of TColor;StartIndex: Integer): Integer;
 {$ENDIF}
@@ -156,6 +158,7 @@ begin
 {$ENDIF}
 end;
 
+{$IFNDEF RR_LAZARUS}
 procedure GDIError;
 var
   ErrorCode: Integer;
@@ -258,7 +261,6 @@ begin
   end;
 end;
 {.$DEFINE PascalCode}
-{$IFNDEF RR_LAZARUS}
 procedure MapBitmapColors(Bmp: TBitmap; OldColors, NewColors: array of TColor);
 type
   TColorRec = packed record
@@ -672,10 +674,20 @@ var
   R,G,B : Byte;
 begin
   FaceColor := ColorToRGB(FaceColor);
+  {$IFDEF RR_LAZARUS}
+  R := Red(FaceColor);
+  G := GReen(FaceColor);
+  B := Blue(FaceColor);
+  {$ELSE}
   R := GetRValue(FaceColor);
   G := GetGValue(FaceColor);
   B := GetBValue(FaceColor);
+  {$ENDIF}
+  {$IFDEF RR_LAZARUS}
+  HighLightColor := RGBToColor(
+  {$ELSE}
   HighLightColor := RGB(
+  {$ENDIF}
 	255-round((256-R) * HLFactor),
 	255-round((256-G) * HLFactor),
 	255-round((256-B) * HLFactor));
@@ -685,7 +697,11 @@ begin
   HLS := RGB2HLS(V);
   HLS.L := HLS.L * ShFactor;	// Luminance := Luminance * Shadowfactor
   V := HLS2RGB(HLS);
+  {$IFDEF RR_LAZARUS}
+  ShadowColor := RGBToColor(
+  {$ELSE}
   ShadowColor := RGB(
+  {$ENDIF}
         Round(V.R*255),
         Round(V.G*255),
         Round(V.B*255));
@@ -696,9 +712,15 @@ var V,HLS : TColorVector;
     R,G,B : Byte;
 begin
   AColor := ColorToRGB(AColor);
+  {$IFDEF RR_LAZARUS}
+  R := Red(AColor);
+  G := Green(AColor);
+  B := Blue(AColor);
+  {$ELSE}
   R := GetRValue(AColor);
   G := GetGValue(AColor);
   B := GetBValue(AColor);
+  {$ENDIF}
   V.R := R/255;
   V.G := G/255;
   V.B := B/255;
@@ -758,9 +780,15 @@ var
    Rdelta,Gdelta,Bdelta: Integer; (* intermediate value: % of spread from max*)
 begin
    (* get R, G, and B out of DWORD *)
+   {$IFDEF RR_LAZARUS}
+   R := Red(RGBColor);
+   G := Green(RGBColor);
+   B := Blue(RGBColor);
+   {$ELSE}
    R := GetRValue(RGBColor);
    G := GetGValue(RGBColor);
    B := GetBValue(RGBColor);
+   {$ENDIF}
 
    (* calculate lightness *)
    cMax := R;
@@ -853,7 +881,11 @@ begin
       G := (HueToRGB(Magic1,Magic2,Hue)               *RGBMAX +(HLSMAX div 2)) div HLSMAX;
       B := (HueToRGB(Magic1,Magic2,Hue-(HLSMAX div 3))*RGBMAX +(HLSMAX div 2)) div HLSMAX;
    end;
+   {$IFDEF RR_LAZARUS}
+   Result :=  RGBToColor(R,G,B);
+   {$ELSE}
    Result :=  RGB(R,G,B);
+   {$ENDIF}
 end;
 
 end.
