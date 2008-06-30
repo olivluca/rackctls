@@ -21,7 +21,7 @@
 "/>
     <License Value="Public Domain
 "/>
-    <Version Major="1" Minor="20" Release="1"/>
+    <Version Major="1" Minor="20" Release="2"/>
     <Files Count="4">
       <Item1>
         <Filename Value="RackCtls.pas"/>

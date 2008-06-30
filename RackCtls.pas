@@ -160,7 +160,7 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle;
     property ButtonDirection: TButtonDirection read FButtonDirection write SetButtonDirection;
     property Caption;
-    property Color: TColor read FColor write SetColor;
+    property Color: TColor read FColor write SetColor default clGray;
     property ColorLED: TColor read FColorLED write SetColorLED;
     property Depth: integer read FDepth write SetDepth;
     property Enabled;
@@ -230,7 +230,7 @@ type
     property Beveled: boolean read FBeveled write SetBeveled;
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle;
     property Caption;
-    property Color: TColor read FColor write SetColor;
+    property Color: TColor read FColor write SetColor default clGray;
     property Ctl3D;
     property Depth: integer read FDepth write SetDepth;
     property DragCursor;
@@ -737,8 +737,8 @@ begin
   FBeveled:=true;
   FBorderStyle:=bsSingle;
   FButtonDirection:=bdBottomUp;
-  FColor:=clGray;
-  AssignBevelColors(FColor,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
+  Color:=clGray;
+  AssignBevelColors(Color,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
   FColorLED:=clBlue;
   FLEDContrast:=6;
   AssignBevelColors(FColorLED,Dummy,FColorLEDOff,FLEDContrast,FLEDContrast);
@@ -1364,8 +1364,8 @@ begin
   FBeveled:=true;
   FBorderStyle:=bsSingle;
   FPanelDirection:=bdBottomUp;
-  FColor:=clGray;
-  AssignBevelColors(FColor,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
+  Color:=clGray;
+  AssignBevelColors(Color,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
   FDepth:=DefaultDepth;
   FShowLED:=true;
   Height:=DefaultHeight;
@@ -1699,8 +1699,8 @@ begin
   inherited Create(AOwner);
 
   {Vorgabewerte setzen}
-  FColor:=clBtnFace;
-  AssignBevelColors(FColor,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
+  Color:=clBtnFace;
+  AssignBevelColors(Color,FColorHighlight,FColorShadow,FHLContrast,FShContrast);
   FMargin:=2;
   FScrewSize:=2;
   FShowScrews:=true;
