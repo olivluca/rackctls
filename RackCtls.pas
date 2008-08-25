@@ -1862,7 +1862,10 @@ begin
 end;
 
 destructor TLEDDisplay.Destroy;
+var c:integer;
 begin
+  for c := 0 to 9 do
+    FDigit[c].free;
   inherited destroy;
 end;
 
