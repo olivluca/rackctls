@@ -5,14 +5,11 @@
     <Name Value="RackCtlsPkg"/>
     <Author Value="Simon Reinhardt - Lazarus adaptation: Luca Olivetti"/>
     <CompilerOptions>
-      <Version Value="5"/>
+      <Version Value="8"/>
       <PathDelim Value="\"/>
       <SearchPaths>
         <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
-      <CodeGeneration>
-        <Generate Value="Faster"/>
-      </CodeGeneration>
       <Other>
         <CompilerPath Value="$(CompPath)"/>
       </Other>
@@ -21,7 +18,7 @@
 "/>
     <License Value="Public Domain
 "/>
-    <Version Major="1" Minor="20" Release="2"/>
+    <Version Major="1" Minor="20" Release="3"/>
     <Files Count="4">
       <Item1>
         <Filename Value="RackCtls.pas"/>

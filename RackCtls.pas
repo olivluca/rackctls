@@ -231,7 +231,9 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle;
     property Caption;
     property Color: TColor read FColor write SetColor default clGray;
+    {$IFNDEF SR_LAZARUS}
     property Ctl3D;
+    {$ENDIF}
     property Depth: integer read FDepth write SetDepth;
     property DragCursor;
     property DragMode;
@@ -245,7 +247,9 @@ type
     {$ENDIF}
     property PanelDirection: TButtonDirection read FPanelDirection write SetPanelDirection;
     property ParentColor;
+    {$IFNDEF SR_LAZARUS}
     property ParentCtl3D;
+    {$ENDIF}
     property ParentFont;
     property ParentShowHint;
     property PopupMenu;
@@ -308,7 +312,9 @@ type
     property BorderStyle;
     property Caption;
     property Color: TColor read FColor write SetColor;
+   {$IFNDEF SR_LAZARUS}
     property Ctl3D;
+    {$ENDIF}
     property DragCursor;
     property DragMode;
     property Enabled;
@@ -321,7 +327,9 @@ type
     {$ENDIF}
     property Margin: integer read FMargin write SetMargin;
     property ParentColor;
+    {$IFNDEF SR_LAZARUS}
     property ParentCtl3D;
+    {$ENDIF}
     property ParentFont;
     property ParentShowHint;
     property PopupMenu;
