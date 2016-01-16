@@ -356,6 +356,8 @@ type
     {$ENDIF}
   end;
 
+  { TLEDDisplay }
+
   TLEDDisplay = class(TGraphicControl)
   private
     FBevelStyle      : TPanelBevel;
@@ -363,7 +365,7 @@ type
     FColorBackGround,
     FColorLED        : TColor;
     FDecSeparator    : TDecSeparator;
-    FDigit           : array [0..9] of TBitmap;
+    FDigit           : array [0..15] of TBitmap;
     FDigitHeight     : integer;
     FDigitShapeColor : TColor;
     FDigitWidth      : integer;
@@ -374,8 +376,9 @@ type
     FLineWidth,
     FNumDigits       : integer;
     FLeadingZeros    : boolean;
-    FSegCl           : array [0..9, 1..7] of TColor;
+    FSegCl           : array [0..15, 1..7] of TColor;
     FSegmentStyle    : TSegmentStyle;
+    FHex             : boolean;
     FValue           : extended;
 
     FOnChange        : TNotifyEvent;
@@ -395,6 +398,7 @@ type
     procedure SetNumDigits (newValue: integer);
     procedure SetSegmentStyle (newValue: TSegmentStyle);
     procedure SetValue (newValue: extended);
+    procedure SetHex (newValue: boolean);
 
     procedure CreateDigitBitmaps;
     procedure AssignColors (seg: integer; s1,s2,s3,s4,s5,s6,s7: Boolean);
@@ -427,6 +431,7 @@ type
     property LEDContrast: TContrast read FLEDContrast write SetLEDContrast;
     property NumDigits: integer read FNumDigits write setNumDigits default 6;
     property SegmentStyle: TSegmentStyle read FSegmentStyle write setSegmentStyle default ssBeveled;
+    property Hex: boolean read FHex write SetHex default false;
     property Value: extended read FValue write setValue;
     property Visible;
     property Width default 168;
@@ -1872,7 +1877,7 @@ end;
 destructor TLEDDisplay.Destroy;
 var c:integer;
 begin
-  for c := 0 to 9 do
+  for c := 0 to 15 do
     FDigit[c].free;
   inherited destroy;
 end;
@@ -1965,9 +1970,15 @@ begin
   AssignColors (7,true,false,true,false,false,true,false);
   AssignColors (8,true,true,true,true,true,true,true);
   AssignColors (9,true,true,true,true,false,true,true);
+  AssignColors ($A,true,true,true,true,true,true,false);
+  AssignColors ($b,false,true,false,true,true,true,true);
+  AssignColors ($C,true,true,false,false,true,false,true);
+  AssignColors ($d,false,false,true,true,true,true,true);
+  AssignColors ($E,true,true,false,true,true,false,true);
+  AssignColors ($F,true,true,false,true,true,false,false);
 
   { Bitmap erstellen }
-  for c := 0 to 9 do begin
+  for c := 0 to 15 do begin
     FDigit[c].free;
     FDigit[c] := TBitmap.create;
     FDigit[c].width := FDigitWidth;
@@ -2066,7 +2077,10 @@ var
 begin
   Area := getClientRect;
   try
-    outText:=FloatToStrF(FValue,ffFixed,18,FFractionDigits);
+    if Hex then
+      outText:=IntToHex(trunc(FValue),FNumDigits)
+    else
+      outText:=FloatToStrF(FValue,ffFixed,18,FFractionDigits);
   except
     outText:='';
   end;
@@ -2090,8 +2104,8 @@ begin
     { Bitmaps und DecSeperator zeichnen }
     for DigitNum:=1 to FNumDigits do begin
       { nachfolgende Nullen müssen gezeichnet werden! }
-      if FLeadingZeros or (StrToInt(outText[DigitNum])<>0) or ANZeroDigit then begin
-        Draw(DigitLeft, DigitTop, FDigit[StrToInt(outText[DigitNum])]);
+      if FLeadingZeros or (outText[DigitNum]<>'0') or ANZeroDigit then begin
+        Draw(DigitLeft, DigitTop, FDigit[StrToInt('$'+outText[DigitNum])]);
         ANZeroDigit:=True; { spätestens jetzt isse da... }
       end;
       inc(DigitLeft, DigitSpace);
@@ -2287,6 +2301,14 @@ begin
     CreateDigitBitmaps;
     Invalidate;
     Change;
+  end;
+end;
+
+procedure TLEDDisplay.SetHex(newValue: boolean);
+begin
+  if FHex<>newValue then begin
+    FHex:=NewValue;
+    Invalidate;
   end;
 end;
 
