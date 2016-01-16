@@ -1,0 +1,11 @@
+[patterns]
+**.pas = native
+**.pp = native
+**.lpr = native
+**.lfm = native
+**.lpi = native
+**.lpk = native
+**.inc = native
+**.txt = CRLF
+**.dof = native
+**.dpr = CRLF
