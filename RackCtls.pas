@@ -2656,8 +2656,7 @@ begin
 end;
 
 {$IFDEF SR_LAZARUS}
-initialization
-{$i rackctls.lrs}
+{$R rackctls.res}
 {$ENDIF}
 
 end.
